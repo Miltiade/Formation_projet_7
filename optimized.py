@@ -1,6 +1,7 @@
 # CAVEAT: on suppose que le coût de chaque action est un entier
 
 import csv
+import time
 
 def programme_dynamique(actions, budget):
     n = len(actions)    
@@ -33,6 +34,14 @@ def programme_dynamique(actions, budget):
     
     return actions_choisies, DP[n][budget]
 
+def chronometrer_algo(fonction, *args, **kwargs):
+    debut = time.time()
+    resultat = fonction(*args, **kwargs)
+    fin = time.time()
+    duree = fin - debut
+    print(f"Temps d'exécution : {duree:.4f} secondes")
+    return resultat
+
 # Lecture du fichier CSV et préparation de la liste actions
 actions = []
 
@@ -51,8 +60,8 @@ with open('Liste+d\'actions+-+P7+Python+-+Feuille+1.csv', newline='') as csvfile
 
 budget = 500
 
-# Appel de la fonction optimisée
-meilleure_combinaison, meilleur_gain = programme_dynamique(actions, budget)
+# Appel de la fonction optimisée avec chronométrage
+meilleure_combinaison, meilleur_gain = chronometrer_algo(programme_dynamique, actions, budget)
 cout_total = sum(action["cout"] for action in meilleure_combinaison)
 
 # Affichage des résultats
