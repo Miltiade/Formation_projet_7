@@ -1,11 +1,37 @@
 import itertools
 import csv
+import time
 
+def brute_force(actions, budget):
+    meilleur_gain = 0
+    meilleure_combinaison = None
+    cout_optimal = 0
 
-# Définition des variables (chargées depuis le fichier CSV) : action et actions
-actions = []
+    # Passage en revue de toutes les combinaisons possibles
+    for taille_combinaison in range(1, len(actions) + 1):
+        for combinaison in itertools.combinations(actions, taille_combinaison):
+            gain_combinaison = sum(action["cout"] * action["benefice"] / 100 for action in combinaison)
+            cout_combinaison = sum(action["cout"] for action in combinaison)
+            # Vérification que le coût de la combinaison est dans le budget et que le gain est maximal
+            if cout_combinaison <= budget:            
+                if gain_combinaison > meilleur_gain:
+                    meilleur_gain = gain_combinaison
+                    meilleure_combinaison = combinaison
+                    cout_optimal = cout_combinaison
+
+    return meilleure_combinaison, meilleur_gain, cout_optimal
+
+# Fonction pour chronométrer l'exécution d'un algorithme
+def chronometrer_algo(fonction, *args, **kwargs):
+    debut = time.time()
+    resultat = fonction(*args, **kwargs)
+    fin = time.time()
+    duree = fin - debut
+    print(f"Temps d'exécution : {duree:.4f} secondes")
+    return resultat
 
 # Lecture du fichier CSV et remplissage de la liste actions
+actions = []
 with open('Liste+d\'actions+-+P7+Python+-+Feuille+1.csv', newline='') as csvfile:
     lecteur = csv.DictReader(csvfile, delimiter=',')
     for ligne in lecteur:
@@ -20,29 +46,16 @@ with open('Liste+d\'actions+-+P7+Python+-+Feuille+1.csv', newline='') as csvfile
         }
         actions.append(action)
 
-# Définition des variables : budget, meilleur_gain, meilleure_combinaison
+# Définition de la variable : budget
 budget = 500
-meilleur_gain = 0
-cout_optimal = 0
-meilleure_combinaison = None
 
-# algorithme de force brute : recherche de la meilleure combinaison
-## Passage en revue de toutes les combinaisons possibles
-for taille_combinaison in range(1, len(actions) + 1):
-    for combinaison in itertools.combinations(actions, taille_combinaison):
-        gain_combinaison = sum(action["cout"] * action["benefice"] / 100 for action in combinaison)
-        cout_combinaison = sum(action["cout"] for action in combinaison)
-## Vérification que le coût de la combinaison est dans le budget et que le gain est maximal
-        if cout_combinaison <= budget:            
-            if gain_combinaison > meilleur_gain:
-                meilleur_gain = gain_combinaison
-                meilleure_combinaison = combinaison
-                cout_optimal = cout_combinaison
+# Appel de la fonction brute-force avec chronométrage
+meilleure_combinaison, meilleur_gain, cout_optimal = chronometrer_algo(brute_force, actions, budget)
 
 # Affichage des résultats
 if meilleure_combinaison is None:
     print("Aucune combinaison trouvée qui soit conforme au budget du portefeuille client.")
 else:
     print("Meilleure combinaison :", [action["nom"] for action in meilleure_combinaison])
-    print("Gain total :", meilleur_gain)
-    print("Coût total :", cout_optimal)   
+    print("Gain total :", meilleur_gain, "EUR")
+    print("Coût total :", cout_optimal, "EUR")
