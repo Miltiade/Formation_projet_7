@@ -65,6 +65,7 @@ meilleure_combinaison, meilleur_gain = chronometrer_algo(programme_dynamique, ac
 cout_total = sum(action["cout"] for action in meilleure_combinaison)
 
 # Affichage des résultats
+# print("RESULTATS")
 if not meilleure_combinaison:
     print("Aucune combinaison trouvée conforme au budget.")
 else:
