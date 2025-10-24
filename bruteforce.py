@@ -32,7 +32,7 @@ def chronometrer_algo(fonction, *args, **kwargs):
 
 # Lecture du fichier CSV et remplissage de la liste actions
 actions = []
-with open('Liste+d\'actions+-+P7+Python+-+Feuille+1.csv', newline='') as csvfile:
+with open('Liste+d\'actions+-+P7+Python+-+Feuille+2.csv', newline='') as csvfile:
     lecteur = csv.DictReader(csvfile, delimiter=',')
     for ligne in lecteur:
         # Retirer le % dans la colonne Bénéfice, convertir en float
@@ -53,6 +53,7 @@ budget = 500
 meilleure_combinaison, meilleur_gain, cout_optimal = chronometrer_algo(brute_force, actions, budget)
 
 # Affichage des résultats
+print("RESULTAT BRUTEFORCE. Actions examinées :", len(actions))
 if meilleure_combinaison is None:
     print("Aucune combinaison trouvée qui soit conforme au budget du portefeuille client.")
 else:

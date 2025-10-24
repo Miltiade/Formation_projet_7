@@ -45,7 +45,7 @@ def chronometrer_algo(fonction, *args, **kwargs):
 # Lecture du fichier CSV et préparation de la liste actions
 actions = []
 
-with open('Liste+d\'actions+-+P7+Python+-+Feuille+1.csv', newline='') as csvfile:
+with open('Liste+d\'actions+-+P7+Python+-+Feuille+2.csv', newline='') as csvfile:
     lecteur = csv.DictReader(csvfile, delimiter=',')
     for ligne in lecteur:
         benefice_str = ligne['Bénéfice (après 2 ans)'].strip().replace('%', '')
@@ -65,10 +65,10 @@ meilleure_combinaison, meilleur_gain = chronometrer_algo(programme_dynamique, ac
 cout_total = sum(action["cout"] for action in meilleure_combinaison)
 
 # Affichage des résultats
-# print("RESULTATS")
+print("RESULTAT OPTIMIZED. Actions examinées :", len(actions))
 if not meilleure_combinaison:
     print("Aucune combinaison trouvée conforme au budget.")
 else:
     print("Meilleure combinaison :", [action["nom"] for action in meilleure_combinaison])
-    print(f"Coût total : {cout_total} EUR")
     print(f"Gain total : {meilleur_gain} EUR")
+    print(f"Coût total : {cout_total} EUR")
