@@ -8,11 +8,12 @@ def brute_force(actions, budget):
     cout_optimal = 0
 
     # Passage en revue de toutes les combinaisons possibles
-    for taille_combinaison in range(1, len(actions) + 1):
-        for combinaison in itertools.combinations(actions, taille_combinaison):
+    for taille_combinaison in range(1, len(actions) + 1): # Déclaration de la variable "taille des combinaisons" ; sa valeur est : [1, nombre total d'actions]
+        for combinaison in itertools.combinations(actions, taille_combinaison): # Pour chaque combinaison possible d'actions de taille "taille des combinaisons", on génère toutes les combinaisons possibles de tailles 1 à n, soit (2^n - 1) combinaisons
+            # Calcul du gain et du coût pour chaque combinaison : proportionnel à la taille de la combinaison (car la variable "combinaison" est une liste)
             gain_combinaison = sum(action["cout"] * action["benefice"] / 100 for action in combinaison)
-            cout_combinaison = sum(action["cout"] for action in combinaison)
-            # Vérification que le coût de la combinaison est dans le budget et que le gain est maximal
+            cout_combinaison = sum(action["cout"] for action in combinaison) # Chaque sum parcourt les éléments de la combinaison : ce qui fait un travail O(k) par combinaison de taille k.
+            # Vérification que le coût de la combinaison est dans le budget et que le gain est maximal ; ces opérations sont constantes en temps
             if cout_combinaison <= budget:            
                 if gain_combinaison > meilleur_gain:
                     meilleur_gain = gain_combinaison
