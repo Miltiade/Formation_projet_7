@@ -1,7 +1,9 @@
 # CAVEAT: on suppose que le coût de chaque action est un entier
 
 import csv
+import tracemalloc
 import time
+
 
 def programme_dynamique(actions, budget):
     n = len(actions)  
@@ -35,12 +37,19 @@ def programme_dynamique(actions, budget):
     
     return actions_choisies, DP[n][budget]
 
-def chronometrer_algo(fonction, *args, **kwargs):
-    debut = time.time()
+# Fonction pour mesurer la performance en temps et mémoire
+def mesure_performance(fonction, *args, **kwargs):
+    tracemalloc.start()
+    start_time = time.time()
+
     resultat = fonction(*args, **kwargs)
-    fin = time.time()
-    duree = fin - debut
-    print(f"Temps d'exécution : {duree:.4f} secondes")
+
+    duree = time.time() - start_time
+    _, pic_mem = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+
+    print(f"Durée : {duree:.2f} secondes")
+    print(f"Pic mémoire : {pic_mem / 1024 / 1024:.2f} Mo")
     return resultat
 
 # Lecture du fichier CSV et préparation de la liste actions
@@ -80,8 +89,9 @@ with open('dataset1_Python+P7.csv', newline='') as csvfile:
 budget_en_euros = 500
 budget_en_centimes = int(budget_en_euros * 100)  # Convertir en centimes pour la logique
 
-# Appel de la fonction optimisée avec chronométrage
-meilleure_combinaison, meilleur_gain = chronometrer_algo(programme_dynamique, actions, budget_en_centimes)
+# Appel de la fonction optimisée avec chronométrage et mesure de mémoire
+print("Exécution de l'algorithme optimisé, veuillez patienter...")
+meilleure_combinaison, meilleur_gain = mesure_performance(programme_dynamique, actions, budget_en_centimes)
 cout_total = sum(action["cout"] for action in meilleure_combinaison)
 
 # Affichage des résultats
@@ -90,5 +100,5 @@ if not meilleure_combinaison:
     print("Aucune combinaison trouvée conforme au budget.")
 else:
     print("Meilleure combinaison :", [action["nom"] for action in meilleure_combinaison])
-    print(f"Gain total : {meilleur_gain / 100:.2f} EUR")  # Convertir en euros avec 2 décimales
+    print(f"Gain total : {meilleur_gain / 100:.2f} EUR")  # Convertir de "centimes" à "euros" (avec 2 décimales)
     print(f"Coût total : {cout_total / 100:.2f} EUR")
