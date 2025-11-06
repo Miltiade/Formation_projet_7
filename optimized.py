@@ -58,7 +58,7 @@ with open('dataset1_Python+P7.csv', newline='') as csvfile:
             cout = float(cout_str)
             # Vérifier que le coût est positif (strictement supérieur à 0)
             if cout <= 0:
-                print(f"Attention : coût négatif détecté ({cout}) dans la ligne : {ligne}")
+                print(f"Ignorée car coût nul ou négatif ({cout}) : {ligne}")
                 continue  # Ignorer cette action 
 
         except ValueError:
