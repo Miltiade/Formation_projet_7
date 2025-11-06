@@ -49,22 +49,9 @@ def brute_force_limite(actions, budget, duree_max):
                 duree = time.time() - debut
                 _, pic_mem = tracemalloc.get_traced_memory()
                 tracemalloc.stop()
-
-                print(f"\nCalcul interrompu au bout de {duree_max} secondes.")
-                print(f"Durée d'exécution effective : {duree:.2f} secondes")
-                print(f"Nombre de combinaisons testées : {combi_testees}")
-                print(f"Nombre d’actions traitées : {len(actions)}")
-                print(f"Pic mémoire consommé : {pic_mem / 1024 / 1024:.2f} Mo")
-
-                return meilleure_combinaison, meilleur_gain, cout_optimal
+                return meilleure_combinaison, meilleur_gain, cout_optimal, combi_testees, duree, pic_mem
 
     duree = time.time() - debut
     _, pic_mem = tracemalloc.get_traced_memory()
     tracemalloc.stop()
-
-    print(f"\nCalcul terminé en {duree:.2f} secondes.")
-    print(f"Nombre de combinaisons testées : {combi_testees}")
-    print(f"Nombre d’actions traitées : {len(actions)}")
-    print(f"Pic mémoire consommé : {pic_mem / 1024 / 1024:.2f} Mo")
-
-    return meilleure_combinaison, meilleur_gain, cout_optimal
+    return meilleure_combinaison, meilleur_gain, cout_optimal, combi_testees, duree, pic_mem
