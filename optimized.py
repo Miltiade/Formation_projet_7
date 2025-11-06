@@ -55,7 +55,7 @@ def mesure_performance(fonction, *args, **kwargs):
 # Lecture du fichier CSV et préparation de la liste actions
 actions = []
 
-with open('dataset1_Python+P7.csv', newline='') as csvfile:
+with open('dataset2_Python+P7.csv', newline='') as csvfile:
     lecteur = csv.DictReader(csvfile, delimiter=',')
     for ligne in lecteur:
         benefice_str = ligne['Bénéfice (après 2 ans)'].strip().replace('%', '')
