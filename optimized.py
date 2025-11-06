@@ -66,19 +66,22 @@ with open('dataset1_Python+P7.csv', newline='') as csvfile:
             # Ignorer cette action
             continue
 
+        # Conversion en centimes (entier) pour conserver la précision
+        cout_centimes = int(cout * 100)
 
         action = {
             "nom": ligne['Actions #'],
-            "cout": int(cout),
+            "cout": cout_centimes,
             "benefice": benefice
         }
-        print(f"Action ajoutée : {action}")
+
         actions.append(action)
 
-budget = 500
+budget_en_euros = 500
+budget_en_centimes = int(budget_en_euros * 100)  # Convertir en centimes pour la logique
 
 # Appel de la fonction optimisée avec chronométrage
-meilleure_combinaison, meilleur_gain = chronometrer_algo(programme_dynamique, actions, budget)
+meilleure_combinaison, meilleur_gain = chronometrer_algo(programme_dynamique, actions, budget_en_centimes)
 cout_total = sum(action["cout"] for action in meilleure_combinaison)
 
 # Affichage des résultats
@@ -87,5 +90,5 @@ if not meilleure_combinaison:
     print("Aucune combinaison trouvée conforme au budget.")
 else:
     print("Meilleure combinaison :", [action["nom"] for action in meilleure_combinaison])
-    print(f"Gain total : {meilleur_gain} EUR")
-    print(f"Coût total : {cout_total} EUR")
+    print(f"Gain total : {meilleur_gain / 100:.2f} EUR")  # Convertir en euros avec 2 décimales
+    print(f"Coût total : {cout_total / 100:.2f} EUR")
