@@ -4,8 +4,9 @@ import csv
 import time
 
 def programme_dynamique(actions, budget):
-    n = len(actions)    
-    # Initialiser la table DP : (n+1) lignes, (budget+1) colonnes, valeurs à 0
+    n = len(actions)  
+
+    # Initialiser la table DP : (n+1) lignes, (budget+1) colonnes, valeurs initialement fixées à 0
     DP = [[0] * (budget + 1) for _ in range(n + 1)]
     
     # Remplissage de la table
@@ -45,17 +46,33 @@ def chronometrer_algo(fonction, *args, **kwargs):
 # Lecture du fichier CSV et préparation de la liste actions
 actions = []
 
-with open('Liste+d\'actions+-+P7+Python+-+Feuille+2.csv', newline='') as csvfile:
+with open('dataset1_Python+P7.csv', newline='') as csvfile:
     lecteur = csv.DictReader(csvfile, delimiter=',')
     for ligne in lecteur:
         benefice_str = ligne['Bénéfice (après 2 ans)'].strip().replace('%', '')
         benefice = float(benefice_str)
 
+        cout_str = ligne['Coût par action (en euros)'].strip()
+        
+        try:
+            cout = float(cout_str)
+            # Vérifier que le coût est positif (strictement supérieur à 0)
+            if cout <= 0:
+                print(f"Attention : coût négatif détecté ({cout}) dans la ligne : {ligne}")
+                continue  # Ignorer cette action 
+
+        except ValueError:
+            print(f"Valeur invalide pour le coût : '{cout_str}' dans la ligne {ligne}")
+            # Ignorer cette action
+            continue
+
+
         action = {
             "nom": ligne['Actions #'],
-            "cout": int(float(ligne['Coût par action (en euros)'])),  # conversion en entier (par précaution)
+            "cout": int(cout),
             "benefice": benefice
         }
+        print(f"Action ajoutée : {action}")
         actions.append(action)
 
 budget = 500
