@@ -10,6 +10,7 @@ def lire_actions(fichier_csv):
             try:
                 cout = float(ligne['Coût par action (en euros)'].strip())
                 if cout <= 0:
+                    print(f"Ignorée car coût nul ou négatif ({cout}) : {ligne}")
                     continue
             except ValueError:
                 continue
@@ -19,9 +20,9 @@ def lire_actions(fichier_csv):
 
 # MAIN
 if __name__ == '__main__':
-    actions = lire_actions('Liste+d\'actions+-+P7+Python+-+Feuille+2.csv')
+    actions = lire_actions('dataset1_Python+P7.csv')
     budget_en_centimes = int(500 * 100)
-    duree_max = 10  # secondes
+    duree_max = 134  # secondes
 
     (meilleure_combinaison,
      meilleur_gain,
