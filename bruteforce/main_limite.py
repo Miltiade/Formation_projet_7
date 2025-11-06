@@ -20,9 +20,9 @@ def lire_actions(fichier_csv):
 
 # MAIN
 if __name__ == '__main__':
-    actions = lire_actions('dataset1_Python+P7.csv')
+    actions = lire_actions('dataset2_Python+P7.csv')
     budget_en_centimes = int(500 * 100)
-    duree_max = 134  # secondes
+    duree_max = 69 # secondes
 
     (meilleure_combinaison,
      meilleur_gain,
